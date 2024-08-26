@@ -21,7 +21,7 @@ jobs:
         uses: anchors/scan-action@v3
         id: scan
         with:
-          path: "${{ githuh.workspace }}"
+          path: "${{ github.workspace }}"
           fail-build: false
           severity-cutoff: high
           acs-report-enble: true
