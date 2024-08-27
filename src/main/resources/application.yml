@@ -1,8 +1,8 @@
 spring:
   datasource:
-    username: postgres
-    password: pFl00rtjes
-    url: jdbc:postgresql://localhost:54321/polardb_catalog
+    username: user
+    password: password
+    url: jdbc:postgresql://localhost:54323/polardb_catalog
     hikari:
       connection-timeout: 2000
       maximum-pool-size: 5
