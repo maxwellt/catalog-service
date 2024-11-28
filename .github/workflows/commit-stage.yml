@@ -4,7 +4,8 @@ on: push # trigger for the job
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: maxwellt/catalog-service
-  VERSION: latest
+  APP_VERSION: latest
+  JAVA_VERSION: 21
 
 jobs: # run in parallel
   build:
@@ -20,7 +21,7 @@ jobs: # run in parallel
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 22
+          java-version: ${{ env.JAVA_VERSION }}
           cache: gradle
       - name: Code vulnerability scanning
         uses: anchore/scan-action@v3
@@ -54,18 +55,18 @@ jobs: # run in parallel
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 22
+          java-version: ${{ env.JAVA_VERSION }}
           cache: gradle
       - name: Build container image
         run: |
           chmod +x gradlew
           ./gradlew bootBuildImage \
-            --imageName ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+            --imageName ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
       - name: OCI image vulnerability scanning
         uses: anchore/scan-action@v3
         id: scan
         with:
-          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
           fail-build: true
           severity-cutoff: high
       - name: Upload vulnerability report
@@ -80,4 +81,4 @@ jobs: # run in parallel
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish container image
-        run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+        run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
