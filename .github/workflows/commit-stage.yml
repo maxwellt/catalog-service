@@ -11,7 +11,7 @@ env:
 jobs: # run in parallel
   build:
     name: Build and Test
-    runs-on: ${{ env.RUN_ON_VERSION }}
+    runs-on: ubuntu-24.04
     permissions:
       contents: read # permission to check out the repository code
       security-events: write # permission to submit security events to GitHub
@@ -44,7 +44,7 @@ jobs: # run in parallel
     name: Package and Publish
     if: ${{ github.ref == 'refs/heads/master' }}
     needs: [ build ] # can't run in parallel with build because it defines the needs here
-    runs-on: ${{ env.RUN_ON_VERSION }}
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
