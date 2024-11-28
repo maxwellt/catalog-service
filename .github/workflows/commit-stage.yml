@@ -6,11 +6,12 @@ env:
   IMAGE_NAME: maxwellt/catalog-service
   APP_VERSION: latest
   JAVA_VERSION: 21
+  RUN_ON_VERSION: ubuntu-24.04
 
 jobs: # run in parallel
   build:
     name: Build and Test
-    runs-on: ubuntu-22.04
+    runs-on: ${{ env.RUN_ON_VERSION }}
     permissions:
       contents: read # permission to check out the repository code
       security-events: write # permission to submit security events to GitHub
@@ -43,7 +44,7 @@ jobs: # run in parallel
     name: Package and Publish
     if: ${{ github.ref == 'refs/heads/master' }}
     needs: [ build ] # can't run in parallel with build because it defines the needs here
-    runs-on: ubuntu-22.04
+    runs-on: ${{ env.RUN_ON_VERSION }}
     permissions:
       contents: read
       packages: write
