@@ -14,7 +14,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(22)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
@@ -65,7 +65,7 @@ dependencyManagement {
 
 bootBuildImage {
 	imageName = "${project.name}"
-	environment = ["BP_JVM_VERSION" : "22.*"]
+	environment = ["BP_JVM_VERSION" : "21.*"]
 
 	docker {
 		publishRegistry {
