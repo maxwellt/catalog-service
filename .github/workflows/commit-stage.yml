@@ -41,7 +41,7 @@ jobs: # run in parallel
   package:
     name: Package and Publish
     if: ${{ github.ref == 'refs/heads/master' }}
-    needs: [ build ]
+    needs: [ build ] # can't run in parallel with build because it defines the needs here
     runs-on: ubuntu-22.04
     permissions:
       contents: read
