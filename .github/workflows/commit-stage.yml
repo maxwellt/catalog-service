@@ -6,7 +6,6 @@ env:
   IMAGE_NAME: maxwellt/catalog-service
   APP_VERSION: latest
   JAVA_VERSION: 21
-  RUN_ON_VERSION: ubuntu-24.04
 
 jobs: # run in parallel
   build:
