@@ -9,30 +9,33 @@ spring:
   application:
     name: catalog-service
   config:
-    import: "optional:configserver:"
+    import: "optional:configserver:" # making it optional means it will just log a warning when it's not available
   cloud:
     config:
       uri: http://localhost:8888
-      request-connect-timeout: 5000
-      request-read-timeout: 5000
-      retry:
+      request-connect-timeout: 5000 # timeout waiting to connect to config server
+      request-read-timeout: 5000 # timeout on waiting to read the configuration
+      retry: # uses Spring Retry
         max-attempts: 6
         initial-interval: 1000
         max-interval: 2000
         multiplier: 1.1
-      fail-fast: false
+      fail-fast: false # retry above only used if this is set to true (but local config you don't want to retry probably)
+  docker:
+    compose:
+      enabled: false
 server:
   port: 9001
   tomcat:
     connection-timeout: 2s
     keep-alive-timeout: 15s
 polar:
-  greeting: Welcome to the local book catalog
+  greeting: Welcome to the default Polar Catalog Service
 management:
   endpoints:
     web:
       exposure:
-        include: refresh
+        include: refresh # allows you to make a GET to /actuator/refresh which will reload beans with new configuration data, or any bean annotated with @RefreshScope
 logging:
   level:
     web: debug
