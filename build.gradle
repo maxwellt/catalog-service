@@ -20,7 +20,7 @@ java {
 
 configurations {
 	compileOnly {
-		extendsFrom annotationProcessor
+		extendsFrom annotationProcessor // configures gradle to use the Configuration Processor when building the project
 	}
 }
 
