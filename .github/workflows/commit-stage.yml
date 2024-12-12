@@ -39,6 +39,12 @@ jobs: # run in parallel
         run: |
           chmod +x gradlew
           ./gradlew build
+      - name: Annotate Test Results
+        uses: dorny/test-reporter@v1
+        with:
+          name: Test Results
+          path: build/test-results/**/TEST*.xml
+          reporter: java-junit
   package:
     name: Package and Publish
     if: ${{ github.ref == 'refs/heads/master' }}
