@@ -7,7 +7,7 @@ env:
   APP_VERSION: latest
   JAVA_VERSION: 21
 
-jobs: # run in parallel
+jobs: # run in parallel, unless a 'needs' key is provided
   build:
     name: Build and Test
     runs-on: ubuntu-24.04
