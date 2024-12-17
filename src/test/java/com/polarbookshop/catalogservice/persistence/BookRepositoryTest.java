@@ -1,6 +1,7 @@
 package com.polarbookshop.catalogservice.persistence;
 
 import com.polarbookshop.catalogservice.config.DataConfig;
+import com.polarbookshop.catalogservice.config.TestcontainersConfig;
 import com.polarbookshop.catalogservice.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,7 @@ import java.util.stream.StreamSupport;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJdbcTest
-@Import(DataConfig.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(value = { DataConfig.class, TestcontainersConfig.class })
 @ActiveProfiles("integration")
 class BookRepositoryTest {
 
