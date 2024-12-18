@@ -67,7 +67,7 @@ dependencyManagement {
 	}
 }
 
-bootBuildImage {
+bootBuildImage { // configuration when running bootBuildImage
 	imageName = "${project.name}"
 	environment = ["BP_JVM_VERSION" : "21.*"]
 
