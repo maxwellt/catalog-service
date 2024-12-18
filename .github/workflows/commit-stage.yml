@@ -9,12 +9,11 @@ env:
 
 jobs: # run in parallel, unless a 'needs' key is provided
   build:
-    name: Build and Test
+    name: Build
     runs-on: ubuntu-24.04
     permissions:
       contents: read # permission to check out the repository code
       security-events: write # permission to submit security events to GitHub
-      checks: write # permission to write to the checks API (for junit reporter)
     steps: # are run sequentially
       - name: Checkout source code
         uses: actions/checkout@v4 # can be an action (like here) or a shell command
@@ -36,10 +35,25 @@ jobs: # run in parallel, unless a 'needs' key is provided
         if: success() || failure()
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
-      - name: Build, unit tests and integration tests
+  test:
+    name: Test
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      checks: write # permission to write to the checks API (for junit reporter)
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: gradle
+      - name: Unit tests and integration tests
         run: |
           chmod +x gradlew
-          ./gradlew build
+          ./gradlew test
       - name: Annotate Test Results
         uses: dorny/test-reporter@v1
         with:
