@@ -73,7 +73,7 @@ bootBuildImage { // configuration when running bootBuildImage
 
 	docker {
 		publishRegistry {
-			username = project.findProperty("registryUsername")
+			username = project.findProperty("registryUsername") // these are passed as param when running ./gradlew bootBuildImage
 			password = project.findProperty("registryToken")
 			url = project.findProperty("registryUrl")
 		}

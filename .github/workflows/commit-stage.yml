@@ -62,13 +62,13 @@ jobs: # run in parallel, unless a 'needs' key is provided
           reporter: java-junit
   package:
     name: Package and Publish
-    if: ${{ github.ref == 'refs/heads/master' }}
+    if: ${{ github.ref == 'refs/heads/master' }} # only run for master branch
     needs: [ build ] # can't run in parallel with build because it defines the dependency here
     runs-on: ubuntu-24.04
     permissions:
-      contents: read
-      packages: write
-      security-events: write
+      contents: read # permission to checkout source code
+      packages: write # permission to write to Github Container Registry
+      security-events: write # permission to submit security events to Github
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
