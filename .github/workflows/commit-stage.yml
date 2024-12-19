@@ -35,6 +35,16 @@ jobs: # run in parallel, unless a 'needs' key is provided
         if: success() || failure()
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          build-scan-publish: true
+          build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
+          build-scan-terms-of-use-agree: "yes"
+      - name: Build
+        run: |
+          chmod +x gradlew
+          ./gradlew assemble
   test:
     name: Test
     runs-on: ubuntu-24.04
