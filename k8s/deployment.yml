@@ -5,6 +5,7 @@ metadata:
   labels:
     app: catalog-service
 spec:
+  replicas: 2
   selector: # defines the labels used to select the Pods to be scaled
     matchLabels:
       app: catalog-service
