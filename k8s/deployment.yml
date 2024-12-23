@@ -17,6 +17,10 @@ spec:
         - name: catalog-service # name of the pod
           image: catalog-service # docker image name (can specify version as well)
           imagePullPolicy: IfNotPresent # only pull if not found locally
+          lifecycle: # what we're doing here is waiting for Kubernetes to send the SIGTERM signal to the individual pods so that all Kubernetes components can be made aware that they should stop sending traffic to this pod otherwise some Kubernetes components might still think it's OK to send requests but the SIGTERM can already be sent so the pod is already shutting down gracfully
+            preStop:
+              exec:
+                command: [ "sh", "-c", "sleep 5"]
           ports:
             - containerPort: 9001
           env:
