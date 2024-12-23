@@ -24,8 +24,11 @@ spring:
   docker:
     compose:
       enabled: false
+  lifecycle:
+    timeout-per-shutdown-phase: 15s # how long should Spring Boot allow for pending requests after shutdown signal has been received
 server:
   port: 9001
+  shutdown: graceful # stop accepting new requests but handle the pending ones
   tomcat:
     connection-timeout: 2s
     keep-alive-timeout: 15s
