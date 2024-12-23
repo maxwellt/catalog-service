@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-service
+  labels:
+    app: catalog-service
+spec:
+  selector: # defines the labels used to select the Pods to be scaled
+    matchLabels:
+      app: catalog-service
+  template: # template for creating the pod
+    metadata:
+      labels: # labels attached to the Pod object. they should match the ones used as selectors
+        app: catalog-service
+    spec:
+      containers: # the list of containes in the pod (one in this case)
+        - name: catalog-service # name of the pod
+          image: catalog-service # docker image name (can specify version as well)
+          imagePullPolicy: IfNotPresent # only pull if not found locally
+          ports:
+            - containerPort: 9001
+          env:
+            - name: BPL_JVM_THREAD_COUNT
+              value: "50"
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://polar-postgres:5432/polardb_catalog # should point to the PostgreSQL pod already deployed
+            - name: SPRING_PROFILES_ACTIVE
+              value: testdata
