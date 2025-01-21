@@ -31,3 +31,5 @@ spec:
               value: jdbc:postgresql://polar-postgres:5432/polardb_catalog # should point to the PostgreSQL pod already deployed
             - name: SPRING_PROFILES_ACTIVE
               value: testdata
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: config-service
