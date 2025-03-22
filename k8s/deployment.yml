@@ -13,6 +13,10 @@ spec:
     metadata:
       labels: # labels attached to the Pod object. they should match the ones used as selectors
         app: catalog-service
+      annotations:
+        prometheus.io/scrape: "true" # signals that Prometheus should scrape containers in this Pod
+        prometheus.io/path: /actuator/prometheus # identifies the HTTP endpoint that exposes Prometheus metrics
+        prometheus.io/port: "9001" # specifies the port number where the metrics end point is available
     spec:
       containers: # the list of containes in the pod (one in this case)
         - name: catalog-service # name of the pod
