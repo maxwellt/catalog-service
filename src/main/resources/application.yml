@@ -50,6 +50,9 @@ management:
       show-components: always
       probes:
         enabled: true # enabled support for K8S probes (liveness/readiness)
+  metrics:
+    tags:
+      application: ${spring.application.name} # adds a micrometer common tag with the application name. this results in Prometheus label being applied to all metrics.
 logging:
   level:
     web: debug
