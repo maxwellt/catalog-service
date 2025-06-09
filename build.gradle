@@ -26,6 +26,10 @@ configurations {
 	}
 }
 
+springBoot {
+	buildInfo() // stores build information in a META-INF/build-info.properties file parsed by a BuildProperties object
+}
+
 repositories {
 	mavenCentral()
 }

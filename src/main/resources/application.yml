@@ -40,10 +40,17 @@ server:
 polar:
   greeting: Welcome to the default Polar Catalog Service
 management:
+  info:
+    env:
+      enabled: true # enables environmental info fetched from info.* properties
+    java:
+      enabled: true
+    os:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: flyway,health,prometheus,refresh # allows you to make a GET to /actuator/refresh which will reload beans with new configuration data, or any bean annotated with @RefreshScope
+        include: info,flyway,health,prometheus,refresh # allows you to make a GET to /actuator/refresh which will reload beans with new configuration data, or any bean annotated with @RefreshScope
   endpoint:
     health:
       show-details: always
@@ -59,3 +66,5 @@ logging:
   level:
     web: debug
     sql: debug
+info: # any propery with info prefix will be returned by /actuator/info
+  system: Polar Bookshop
