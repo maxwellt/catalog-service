@@ -43,7 +43,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,prometheus,refresh # allows you to make a GET to /actuator/refresh which will reload beans with new configuration data, or any bean annotated with @RefreshScope
+        include: flyway,health,prometheus,refresh # allows you to make a GET to /actuator/refresh which will reload beans with new configuration data, or any bean annotated with @RefreshScope
   endpoint:
     health:
       show-details: always
