@@ -8,6 +8,7 @@ ext { // properties in maven, can be referenced using ${...} syntax
 	springCloudVersion = "2024.0.0"
 	testcontainersVersion = "1.20.1"
 	testKeycloakVersion = "2.3.0"
+	otelVersion = "1.33.3"
 }
 
 group = 'com.polarbookshop'
@@ -54,6 +55,7 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation "com.github.dasniko:testcontainers-keycloak:${testKeycloakVersion}"
+	runtimeOnly "io.opentelemetry.javaagent:opentelemetry-javaagent:${otelVersion}"
 }
 
 tasks.named('test') {
