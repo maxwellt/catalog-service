@@ -5,47 +5,49 @@ metadata:
   labels:
     app: catalog-service
 spec:
-  replicas: 2
-  selector: # defines the labels used to select the Pods to be scaled
+  replicas: 1
+  selector:
     matchLabels:
       app: catalog-service
-  template: # template for creating the pod
+  template:
     metadata:
-      labels: # labels attached to the Pod object. they should match the ones used as selectors
+      labels:
         app: catalog-service
       annotations:
-        prometheus.io/scrape: "true" # signals that Prometheus should scrape containers in this Pod
-        prometheus.io/path: /actuator/prometheus # identifies the HTTP endpoint that exposes Prometheus metrics
-        prometheus.io/port: "9001" # specifies the port number where the metrics end point is available
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "9001"
     spec:
-      containers: # the list of containes in the pod (one in this case)
-        - name: catalog-service # name of the pod
-          image: catalog-service # docker image name (can specify version as well)
-          imagePullPolicy: IfNotPresent # only pull if not found locally
-          lifecycle: # what we're doing here is waiting for Kubernetes to send the SIGTERM signal to the individual pods so that all Kubernetes components can be made aware that they should stop sending traffic to this pod otherwise some Kubernetes components might still think it's OK to send requests but the SIGTERM can already be sent so the pod is already shutting down gracfully
+      containers:
+        - name: catalog-service
+          image: catalog-service
+          imagePullPolicy: IfNotPresent
+          lifecycle:
             preStop:
               exec:
-                command: [ "sh", "-c", "sleep 5"]
+                command: [ "sh", "-c", "sleep 5" ]
           ports:
             - containerPort: 9001
+          env:
+            - name: BPL_JVM_THREAD_COUNT
+              value: "50"
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-service
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://polar-postgres/polardb_catalog
+            - name: SPRING_PROFILES_ACTIVE
+              value: testdata
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+              value: http://polar-keycloak/realms/PolarBookshop
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: 9001
-            initialDelaySeconds: 10 # delay before starting liveness check
-            periodSeconds: 5 # frequency for checking liveness
+            initialDelaySeconds: 10
+            periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: 9001
-            initialDelaySeconds: 10 # delay before starting liveness check
-            periodSeconds: 5 # frequency for checking liveness
-          env:
-            - name: BPL_JVM_THREAD_COUNT
-              value: "50"
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://polar-postgres:5432/polardb_catalog # should point to the PostgreSQL pod already deployed
-            - name: SPRING_PROFILES_ACTIVE
-              value: testdata
-            - name: SPRING_CLOUD_CONFIG_URI
-              value: config-service
+            initialDelaySeconds: 5
+            periodSeconds: 15
